@@ -10,7 +10,7 @@ ntwk_info_names <- c("ni", "is_directed", "is_bipartite", "is_weighted",
 #' @export
 #'
 #' @examples
-#' x <- netwk_info_ig(flomarr.ig)
+#' x <- ntwk_info_ig(flomarr.ig)
 #' flo_dir <- x$is_directed
 ntwk_info_ig <- function(ntwk_ig, loops_p = FALSE) {
   if (!is.igraph(ntwk_ig)) stop("ntwk_ig is not an igraph object")
@@ -48,7 +48,7 @@ ntwk_info_ig <- function(ntwk_ig, loops_p = FALSE) {
 #' @export
 #'
 #' @examples
-#' x <- netwk_info_sna(flomarr.sna)
+#' x <- ntwk_info_sna(flomarr.sna)
 #' flo_dir <- x$is_directed
 ntwk_info_sna <- function(ntwk_sna) {
   if (!is.network(ntwk_sna)) stop("ntwk_sna is not a network object")
