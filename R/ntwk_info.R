@@ -4,6 +4,17 @@ library(statnet)
 ntwk_info_names <- c("ni", "is_directed", "is_bipartite", "is_weighted",
                      "is_connected")
 
+#' Return information about an iGraph network object
+#'
+#' @param ntwk_ig the iGraph network object
+#' @param loops_p value for igraph::degree `loops` parameter
+#'
+#' @return a list of network information
+#' @export
+#'
+#' @examples
+#' x <- netwk_info_ig(flomarr.ig)
+#' flo_dir <- x$is_directed
 ntwk_info_ig <- function(ntwk_ig, loops_p = FALSE) {
   if (!is.igraph(ntwk_ig)) stop("ntwk_ig is not an igraph object")
   ntwk_directed <- is_directed(ntwk_ig)
@@ -32,7 +43,17 @@ ntwk_info_ig <- function(ntwk_ig, loops_p = FALSE) {
   return(output_list)
 }
 
-ntwk_info_sna <- function(ntwk_sna, ignore.eval_p = FALSE) {
+#' Return information about a statnet network object
+#'
+#' @param ntwk_sna the statnet network object
+#'
+#' @return a list of network information
+#' @export
+#'
+#' @examples
+#' x <- netwk_info_sna(flomarr.sna)
+#' flo_dir <- x$is_directed
+ntwk_info_sna <- function(ntwk_sna) {
   if (!is.network(ntwk_sna)) stop("ntwk_sna is not a network object")
 
   ntwk_directed <- ntwk_sna$gal$directed
