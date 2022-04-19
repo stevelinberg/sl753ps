@@ -1,6 +1,3 @@
-library(sna)
-library(statnet)
-
 ntwk_info_names <- c("ni", "is_directed", "is_bipartite", "is_weighted",
                      "is_connected")
 
