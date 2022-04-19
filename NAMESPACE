@@ -2,3 +2,4 @@
 
 export(ntwk_info_ig)
 export(ntwk_info_sna)
+importFrom(network,"%v%")

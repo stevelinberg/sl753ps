@@ -18,6 +18,8 @@ a list of network information
 Return information about an iGraph network object
 }
 \examples{
-x <- netwk_info_ig(flomarr.ig)
+\dontrun{
+x <- ntwk_info_ig(flomarr.ig)
 flo_dir <- x$is_directed
+}
 }

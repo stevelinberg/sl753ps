@@ -16,6 +16,8 @@ a list of network information
 Return information about a statnet network object
 }
 \examples{
-x <- netwk_info_sna(flomarr.sna)
+\dontrun{
+x <- ntwk_info_sna(flomarr.sna)
 flo_dir <- x$is_directed
+}
 }

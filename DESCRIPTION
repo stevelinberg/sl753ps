@@ -4,7 +4,7 @@ Version: 0.0.0.9000
 Authors@R: 
     person("Steve", "Linberg", , "steve@slinberg.net", role = c("aut", "cre"))
 Description: Utility fuctions for the class 753PS, Social Network Analysis, at
-    the University of Massachusetts Amherst, Spring 2022
+    the University of Massachusetts Amherst, Spring 2022.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -14,4 +14,5 @@ Suggests:
 Config/testthat/edition: 3
 Imports: 
     igraph,
+    network,
     sna

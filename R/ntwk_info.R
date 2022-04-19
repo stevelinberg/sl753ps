@@ -10,13 +10,15 @@ ntwk_info_names <- c("ni", "is_directed", "is_bipartite", "is_weighted",
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' x <- ntwk_info_ig(flomarr.ig)
 #' flo_dir <- x$is_directed
+#' }
 ntwk_info_ig <- function(ntwk_ig, loops_p = FALSE) {
-  if (!is.igraph(ntwk_ig)) stop("ntwk_ig is not an igraph object")
-  ntwk_directed <- is_directed(ntwk_ig)
+  if (!igraph::is.igraph(ntwk_ig)) stop("ntwk_ig is not an igraph object")
+  ntwk_directed <- igraph::is_directed(ntwk_ig)
   nodeinfo <- data.frame(
-    name      = V(ntwk_ig)$name,
+    name      = igraph::V(ntwk_ig)$name,
     totdegree = igraph::degree(ntwk_ig, loops = loops_p),
     indegree  = igraph::degree(ntwk_ig, mode = "in", loops = loops_p),
     outdegree = igraph::degree(ntwk_ig, mode = "out", loops = loops_p),
@@ -32,9 +34,9 @@ ntwk_info_ig <- function(ntwk_ig, loops_p = FALSE) {
   output_list <-
     list(nodeinfo,
          ntwk_directed,
-         is_bipartite(ntwk_ig),
-         is_weighted(ntwk_ig),
-         is_connected(ntwk_ig)
+         igraph::is_bipartite(ntwk_ig),
+         igraph::is_weighted(ntwk_ig),
+         igraph::is_connected(ntwk_ig)
     )
   names(output_list) <- ntwk_info_names
   return(output_list)
@@ -45,13 +47,16 @@ ntwk_info_ig <- function(ntwk_ig, loops_p = FALSE) {
 #' @param ntwk_sna the statnet network object
 #'
 #' @return a list of network information
+#' @importFrom network %v%
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' x <- ntwk_info_sna(flomarr.sna)
 #' flo_dir <- x$is_directed
+#' }
 ntwk_info_sna <- function(ntwk_sna) {
-  if (!is.network(ntwk_sna)) stop("ntwk_sna is not a network object")
+  if (!network::is.network(ntwk_sna)) stop("ntwk_sna is not a network object")
 
   ntwk_directed <- ntwk_sna$gal$directed
   gmode_p <- ifelse(ntwk_directed, "digraph", "graph")
