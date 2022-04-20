@@ -1,12 +1,12 @@
 #' Connect isolated nodes to themselves in a statnet graph
 #'
-#' @param ntwk_sna
+#' @param ntwk_sna the statnet network object
 #'
-#' @return ntwk_sna
+#' @return the statnet network object with any isolates self-connected
 #' @export
 #'
 #' @examples
-#' \dontrun {
+#' \dontrun{
 #' flo_stat <- connect_isolates_sna(flo_stat)
 #' }
 connect_isolates_sna <- function(ntwk_sna) {
@@ -24,13 +24,13 @@ connect_isolates_sna <- function(ntwk_sna) {
 
 #' Connect isolated nodes to themselves in an igraph graph
 #'
-#' @param ntwk_ig
+#' @param ntwk_ig the iGraph network object
 #'
-#' @return ntwk_ig
+#' @return the iGraph network object with any isolates self-connected
 #' @export
 #'
 #' @examples
-#' \dontrun {
+#' \dontrun{
 #' flo_ig <- connect_isolates_sna(flo_ig)
 #' }
 connect_isolates_ig <- function(ntwk_ig) {
