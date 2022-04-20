@@ -63,6 +63,7 @@ ntwk_info_sna <- function(ntwk_sna) {
 
   ntwk_directed <- ntwk_sna$gal$directed
   gmode_p <- ifelse(ntwk_directed, "digraph", "graph")
+  ntwk_connected <- sna::components(ntwk_sna) == 1
 
   # if there is exactly one edge attribute not named "na", it is the weight
   # attribute (regardless of its name)
@@ -84,7 +85,11 @@ ntwk_info_sna <- function(ntwk_sna) {
       gmode = gmode_p,
       ignore.eval = FALSE,
       rescale = FALSE,
-      cmode = ifelse(ntwk_directed, "suminvdir", "suminvundir")
+      cmode = ifelse(ntwk_connected,
+                     ifelse(ntwk_directed, "suminvdir", "suminvundir"),
+                     # As per sna::connect, if the network is disconnected,
+                     # use Gil-Schmidt closeness calculation.
+                     "gil-schmidt")
     ),
     centr_btw = sna::betweenness(ntwk_sna, gmode = gmode_p)
   )
@@ -100,7 +105,7 @@ ntwk_info_sna <- function(ntwk_sna) {
       ntwk_directed,
       ntwk_sna$gal$bipartite,
       ntwk_weighted,
-      sna::components(ntwk_sna) == 1
+      ntwk_connected
     )
   names(output_list) <- ntwk_info_names
   return(output_list)
