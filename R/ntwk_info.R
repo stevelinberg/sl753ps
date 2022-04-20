@@ -1,5 +1,7 @@
-ntwk_info_names <- c("ni", "is_directed", "is_bipartite", "is_weighted",
-                     "is_connected")
+ntwk_info_names <- c(
+  "ni", "is_directed", "is_bipartite", "is_weighted",
+  "is_connected"
+)
 
 #' Return information about an iGraph network object
 #'
@@ -32,11 +34,12 @@ ntwk_info_ig <- function(ntwk_ig, loops_p = FALSE) {
   nodeinfo$centr_clo <- nodeinfo$centr_clo / max(nodeinfo$centr_clo)
 
   output_list <-
-    list(nodeinfo,
-         ntwk_directed,
-         igraph::is_bipartite(ntwk_ig),
-         igraph::is_weighted(ntwk_ig),
-         igraph::is_connected(ntwk_ig)
+    list(
+      nodeinfo,
+      ntwk_directed,
+      igraph::is_bipartite(ntwk_ig),
+      igraph::is_weighted(ntwk_ig),
+      igraph::is_connected(ntwk_ig)
     )
   names(output_list) <- ntwk_info_names
   return(output_list)
@@ -69,31 +72,35 @@ ntwk_info_sna <- function(ntwk_sna) {
   # ntwk_weight_name <- ifelse(ntwk_weighted, ntwk_edge_attrs[1], NA)
 
   nodeinfo <- data.frame(
-    name      = ntwk_sna %v% "vertex.names",
+    name = ntwk_sna %v% "vertex.names",
     totdegree = sna::degree(ntwk_sna, gmode = gmode_p),
-    indegree  = sna::degree(ntwk_sna, gmode = gmode_p, cmode = "indegree"),
+    indegree = sna::degree(ntwk_sna, gmode = gmode_p, cmode = "indegree"),
     outdegree = sna::degree(ntwk_sna, gmode = gmode_p, cmode = "outdegree"),
     # Note: we might not want to use weights here if we want to stay consistent
     # with igraph.
-    eigen     = sna::evcent(ntwk_sna, ignore.eval = ntwk_weighted, rescale = FALSE),
-    bonanich  = sna::bonpow(ntwk_sna),
+    eigen = sna::evcent(ntwk_sna, ignore.eval = ntwk_weighted, rescale = FALSE),
+    bonanich = sna::bonpow(ntwk_sna),
     centr_clo = sna::closeness(ntwk_sna,
-                               gmode = gmode_p,
-                               ignore.eval = FALSE,
-                               rescale = FALSE,
-                               cmode = ifelse(ntwk_directed, "suminvdir", "suminvundir")),
+      gmode = gmode_p,
+      ignore.eval = FALSE,
+      rescale = FALSE,
+      cmode = ifelse(ntwk_directed, "suminvdir", "suminvundir")
+    ),
     centr_btw = sna::betweenness(ntwk_sna, gmode = gmode_p)
   )
   # Scale the eigenvector values to 0-1 to match the igraph values.
-  nodeinfo$eigen <- nodeinfo$eigen / max(nodeinfo$eigen)
+  # styler: off goddammit I know what I'm doing
+  nodeinfo$eigen     <- nodeinfo$eigen     / max(nodeinfo$eigen)
   nodeinfo$centr_clo <- nodeinfo$centr_clo / max(nodeinfo$centr_clo)
+  # styler: on
 
   output_list <-
-    list(nodeinfo,
-         ntwk_directed,
-         ntwk_sna$gal$bipartite,
-         ntwk_weighted,
-         sna::components(ntwk_sna) == 1
+    list(
+      nodeinfo,
+      ntwk_directed,
+      ntwk_sna$gal$bipartite,
+      ntwk_weighted,
+      sna::components(ntwk_sna) == 1
     )
   names(output_list) <- ntwk_info_names
   return(output_list)
