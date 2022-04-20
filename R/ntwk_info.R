@@ -19,6 +19,8 @@ ntwk_info_names <- c(
 ntwk_info_ig <- function(ntwk_ig, loops_p = FALSE) {
   if (!igraph::is.igraph(ntwk_ig)) stop("ntwk_ig is not an igraph object")
   ntwk_directed <- igraph::is_directed(ntwk_ig)
+  ntwk_connected <- igraph::is_connected(ntwk_ig);
+
   nodeinfo <- data.frame(
     name      = igraph::V(ntwk_ig)$name,
     totdegree = igraph::degree(ntwk_ig, loops = loops_p),
@@ -31,6 +33,12 @@ ntwk_info_ig <- function(ntwk_ig, loops_p = FALSE) {
     centr_btw = igraph::betweenness(ntwk_ig, directed = ntwk_directed, weights = NA),
     burt      = igraph::constraint(ntwk_ig)
   )
+  if (!ntwk_connected) {
+    # For disconnected networks, replace NaN with 0, approximating
+    # Gil-Schmidt (see ntwk_info_sna)
+    nodeinfo$centr_clo[is.nan(nodeinfo$centr_clo)] <- 0
+  }
+  # Scale closeness from 0 to 1 to (hopefully) match sna
   nodeinfo$centr_clo <- nodeinfo$centr_clo / max(nodeinfo$centr_clo)
 
   output_list <-
@@ -39,7 +47,7 @@ ntwk_info_ig <- function(ntwk_ig, loops_p = FALSE) {
       ntwk_directed,
       igraph::is_bipartite(ntwk_ig),
       igraph::is_weighted(ntwk_ig),
-      igraph::is_connected(ntwk_ig)
+      ntwk_connected
     )
   names(output_list) <- ntwk_info_names
   return(output_list)
